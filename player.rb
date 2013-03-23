@@ -1,4 +1,3 @@
-
 # encoding: utf-8
 require 'debugger'
 
@@ -7,6 +6,8 @@ class Player
 
 	attr_accessor :color, :board, :pieces
 
+	# REV: Might want to initialize by passing in board as well, also do not need a set_board method with attr_accessor
+	#	Since you have your own setter methods, maybe change attr_accessor to attr_reader
 	def initialize(color)
 		@color = color
 		@board = nil
