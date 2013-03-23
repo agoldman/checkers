@@ -1,7 +1,6 @@
 
 # encoding: utf-8
 require 'debugger'
-require 'Set'
 
 class Board
 
@@ -72,6 +71,22 @@ class Board
 		matrix[x][y] = nil
 		piece.player.remove_piece(piece)
 		piece.position = nil
+	end
+
+	def make_kill(attempted_move)
+		start_pos = attempted_move[0] #[2, 3]
+		puts start_pos
+		chosen_piece = get_piece(start_pos)
+		puts "#{chosen_piece}"
+		if chosen_piece.jumping
+			end_pos = attempted_move[1]		#[4, 5]
+			xdelta = end_pos[0] - start_pos[0]  
+			ydelta = end_pos[1] - start_pos[1]  
+			x = xdelta > 0 ? 1 : -1
+			y = ydelta > 0 ? 1 : -1
+			kill_pos = [start_pos[0] + x, start_pos[y] + y]
+			remove_piece(kill_pos)
+		end
 	end
 
 	def add_piece(piece)
@@ -154,8 +169,8 @@ class Checkers
 				chosen_piece = @board.get_piece(attempted_move[0])
 				end_pos = attempted_move[1]
 			end
+			@board.make_kill(attempted_move)
 			@board.move(attempted_move)
-			puts "made move"
 			counter += 1
 			win = win?(current_player, enemy)
 		end
@@ -249,7 +264,7 @@ end
 
 class Piece
 
-	attr_accessor :color, :size, :board, :position, :player
+	attr_accessor :color, :size, :board, :position, :player, :jumping
 
 
 	def initialize(color, size = 1, board, position, player, forward)
@@ -398,8 +413,16 @@ end
 # #expect [6, 5] - must follow longest jump
 
 ##comment out the above before testing the below
-c = Checkers.new
-c.play
+# testing kills
+# c = Checkers.new
+# piece1 = Piece.new(:red, c.board, [3, 4], c.red_player, -1)
+# c.board.add_piece(piece1)
+# c.show_board
+# piece2 = c.board.get_piece([2,3])
+# piece2.jumping = true
+# c.board.make_kill([[2,3], [4,5]])
+# c.board.move([[2,3], [4,5]])
+# c.show_board
 
 
 
