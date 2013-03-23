@@ -49,11 +49,9 @@ class Player
 		#belongs to this player
 
 		start_pos = moves[0]
-		start_piece = @board.get_piece(start_pos)
-		return false if start_piece == nil
-		return false unless start_piece.color == @color
+		return false if pos_nil?(start_pos)
+		return false unless same_player?(start_pos)
 		return false unless moves.length == 2
-
 		moves.each do |coord|
 			return false unless coord.length == 2
 			coord.each do |row_or_col|
@@ -62,6 +60,14 @@ class Player
 		end
 
 		true
+	end
+
+	def same_player?(position)
+		@board.get_piece(position).color == @color
+	end
+
+	def pos_nil?(position)
+		@board.get_piece(position) == nil
 	end
 
 	def has_moves?
