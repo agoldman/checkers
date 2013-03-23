@@ -11,7 +11,7 @@ class Board
 		set_white_pieces(white_player)
 		set_red_pieces(red_player)
 	end
-
+	# REV: I think you could condense these two together by adding some difference to the r and c values for one of the players
 	def set_white_pieces(white_player)
 
 		0.upto(2) do |r|  #place rows 0 and 2
