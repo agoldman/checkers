@@ -1,5 +1,4 @@
 
-
 # encoding: utf-8
 require 'debugger'
 
@@ -22,9 +21,11 @@ class Piece
 	def render
 		@color == :white ? "\u{26AA} " : "\u{26AB} "
 	end
-
+	# REV: Might want to take into account kings when designing your piece class
+	#	since kings can actually have 4 directions to move in
 	def moves 
 		@jumping = false 
+		# REV: left right instead of one two might be more descriptive
 		one = [@position[0] + @forward, position[1] - 1] 
 		two = [@position[0] + @forward, position[1] + 1] 
 		simple_moves = [one, two]
@@ -50,7 +51,8 @@ class Piece
 		right = [position[0] + @forward, position[1] + 1] #hop over
 		left_hop = [left[0] + @forward, left[1] - 1]  #hop to
 		right_hop = [right[0] + @forward, right[1] + 1]
-
+		# REV: Could do just two separate if statements here and add to jumps loop
+		#	also, you don't need to initialize jumps with your current setup
 		if dir_ok(left, left_hop) && dir_ok(right, right_hop)
 			jumps = [left_hop] + [right_hop]
 		elsif dir_ok(left, left_hop)
